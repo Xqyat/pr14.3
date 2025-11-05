@@ -13,6 +13,8 @@ const blank = {
   image_url: ""
 };
 
+const API_URL = "http://localhost:3001";
+
 function Products() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(blank);
@@ -20,7 +22,7 @@ function Products() {
 
   // Загрузка
   useEffect(() => {
-    axios.get("http://localhost:3000/products")
+    axios.get(`${API_URL}/products`)
       .then(r => setItems(r.data))
       .catch(err => console.error("GET /products:", err));
   }, []);
@@ -38,7 +40,7 @@ function Products() {
         ...form,
         price: form.price === "" ? null : Number(form.price)
       };
-      const { data } = await axios.post("http://localhost:3000/products", payload);
+      const { data } = await axios.post(`${API_URL}/products`, payload);
       setItems(prev => [data, ...prev]);
       setForm(blank);
     } catch (err) {
@@ -72,7 +74,7 @@ function Products() {
         ...form,
         price: form.price === "" ? null : Number(form.price)
       };
-      const { data } = await axios.put(`http://localhost:3000/products/${editId}`, payload);
+      const { data } = await axios.put(`${API_URL}/products/${editId}`, payload);
       setItems(prev => prev.map(i => i.id === editId ? data : i));
       setEditId(null);
       setForm(blank);
@@ -84,7 +86,7 @@ function Products() {
   // Удалить
   const removeItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/products/${id}`);
+      await axios.delete(`${API_URL}/products/${id}`);
       setItems(prev => prev.filter(i => i.id !== id));
       if (editId === id) {
         setEditId(null);

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
+const port = 3001;
 
 const app = express();
 app.use(cors());
@@ -16,8 +17,6 @@ const db = mysql.createPool({
 // Healthcheck
 app.get('/', (_req, res) => res.send('API OK'));
 
-// ВНИМАНИЕ: в phpMyAdmin таблица называется "users" (как на скрине).
-// Это товары: колонки id, title, description, specs, image_url, price
 const TABLE = 'users';
 
 // GET список товаров
@@ -81,4 +80,4 @@ app.delete('/products/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log('API http://localhost:3000'));
+app.listen(port, () => console.log(`API http://localhost:${port}`)); 
